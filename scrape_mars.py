@@ -38,20 +38,20 @@ def scrape():
     mars_facts_df = mars_facts[0]
     mars_facts_df.columns = ['Description','Value']
     mars_facts_df.set_index('Description', inplace=True)
-    mars_facts_df.to_html()
+    mars_facts_df = mars_facts_df.to_html(classes="table table-striped")
 
-    mars_facts_df2 = mars_facts_df.reset_index()
-    headers = list(mars_facts_df2["Description"])
-    values = list(mars_facts_df2["Value"])
+    # mars_facts_df2 = mars_facts_df.reset_index()
+    # headers = list(mars_facts_df2["Description"])
+    # values = list(mars_facts_df2["Value"])
 
-    headers2 =[]
-    for i in headers:
-        x=(i[:-1])
-        headers2.append(x)
+    # headers2 =[]
+    # for i in headers:
+    #     x=(i[:-1])
+    #     headers2.append(x)
         
-    mars_dictionary = {}
-    for i in range(len(headers)):
-        mars_dictionary[headers2[i]] = values[i]
+    # mars_dictionary = mars_facts_df2
+    # for i in range(len(headers)):
+    #     mars_dictionary[headers2[i]] = values[i]
     hemispheres_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     with requests.Session() as s:
         r = s.get(hemispheres_url)
@@ -76,7 +76,7 @@ def scrape():
         
         hemisphere_image_urls.append({"title" : title, "img_url" : img_url})
     mars_data = {}
-    mars_data["data"] = mars_dictionary
+    mars_data["data"] = mars_facts_df
     mars_data["hemisphere_image_urls"] = hemisphere_image_urls
     mars_data["mars_weather"] = mars_weather
     mars_data["mars_images_url"] = mars_images_url
